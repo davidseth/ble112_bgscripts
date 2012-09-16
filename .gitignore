@@ -1,2 +1,3 @@
 # Ignore hex files.
 *.hex
+.DS_Store
