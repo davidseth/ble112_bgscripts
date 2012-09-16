@@ -4,40 +4,81 @@ dim channel
 dim tlen
 
 event system_boot(major ,minor ,patch ,build ,ll_version ,protocol_version ,hw )
-#set to advertising mode
+
+	#set to advertising mode
 	call gap_set_mode(gap_general_discoverable,gap_undirected_connectable)
-#set bondable mode
-	call sm_set_bondable_mode(1)
-#config spi&accelerometer	
+
+	
+	#config spi&accelerometer
+	
+	#set the accelerometer to data mode??
 	call hardware_io_port_write(1,$7,$3)
+	
+		#port - 0,1,2
+		#direction - bit0 (input), bit1 (output)
 	call hardware_io_port_config_direction(1,$7)	
 	call hardware_io_port_write(1,$7,$7)
+
+	# transfer SPI data
+		#channel uint8 - SPI channel used 0,1
+		#data_len uint8
+		#data uint8array - data to transmit
 	call hardware_spi_transfer(0,2,"\x0a\x06")
 	call hardware_io_port_write(1,$7,$3)
+
+
+	#set bondable mode
+	call sm_set_bondable_mode(1)
 	
 #start timer at 1second interval, repeating
 	call hardware_set_soft_timer(32768,0,0)
 end
 
 event hardware_soft_timer(handle)
+	#set the accelerometer to data mode
 	call hardware_io_port_write(1,$7,$7)
+
+	#write out information
+	#call hardware_spi_transfer(channel, data_len, data_data)(result, channel, data_len, data_data)
 	call hardware_spi_transfer(0,2,"\x18\x00")(result,channel,tlen,tmp(0))
-	call hardware_io_port_write(1,$7,$3)	
+
+	#write to the I/O port
+		#port - i/o port to write to 0,1,2
+		#mask - pins to modify
+		#data - pin values to set
+	#call hardware_io_port_write(1,$7,$3)
+
+	# writes an attribute's value to the local database
+		#handle - handle of the attribute to write
+		#offset - attribute offset to write data
+		#value_len - length of data
+		#value of the attribute to write
 	call attributes_write(x_data,0,2,tmp(0:2))
 
-	call hardware_io_port_write(1,$7,$7)
-	call hardware_spi_transfer(0,2,"\x1c\x00")(result,channel,tlen,tmp(0))
-	call hardware_io_port_write(1,$7,$3)	
-	call attributes_write(y_data,0,2,tmp(0:2))
+	#set the accelerometer to data mode
+	#call hardware_io_port_write(1,$7,$7)
+	#call hardware_spi_transfer(0,2,"\x1c\x00")(result,channel,tlen,tmp(0))
+	#call hardware_io_port_write(1,$7,$3)	
+	#call attributes_write(y_data,0,2,tmp(0:2))
 
-	call hardware_io_port_write(1,$7,$7)
-	call hardware_spi_transfer(0,2,"\x20\x00")(result,channel,tlen,tmp(0))
-	call hardware_io_port_write(1,$7,$3)	
-	call attributes_write(z_data,0,2,tmp(0:2))
+	#set the accelerometer to data mode
+	#call hardware_io_port_write(1,$7,$7)
+	#call hardware_spi_transfer(0,2,"\x20\x00")(result,channel,tlen,tmp(0))
+	#call hardware_io_port_write(1,$7,$3)	
+	#call attributes_write(z_data,0,2,tmp(0:2))
 	
 end
 
+
+event hardware_io_port_status(timestamp, port, irq, state)
+
+end
+
+event attributes_value(connection, reason, handle, offset, value_len, value_data)
+
+end 
+
 event connection_disconnected(handle,result)
-#connection disconnected, continue advertising
-    call gap_set_mode(gap_general_discoverable,gap_undirected_connectable)
+	#connection disconnected, continue advertising
+	call gap_set_mode(gap_general_discoverable,gap_undirected_connectable)
 end

@@ -6,7 +6,7 @@
 
       <characteristic uuid="2a00">
         <properties read="true" const="true" />
-        <value>BG Demo</value>
+        <value>Accelerometer Demo</value>
       </characteristic>
 
       <characteristic uuid="2a01">
@@ -15,16 +15,16 @@
       </characteristic>
     </service>
 
-    <service type="primary" uuid="9000" id="manufacturer">
-        <characteristic uuid="9100">
+    <service type="primary" uuid="180A" id="manufacturer">
+        <characteristic uuid="2A25">
             <properties read="true" const="true" />
             <value type="hex">000780c0ffeef00d</value>
         </characteristic>
-        <characteristic uuid="9101">
+        <characteristic uuid="2A24">
             <properties read="true" const="true" />
             <value>modelnumber</value>
         </characteristic>
-        <characteristic uuid="9106">
+        <characteristic uuid="2A29">
             <properties read="true" const="true" />
             <value>Bluegiga</value>
         </characteristic>
@@ -42,8 +42,8 @@
     <service uuid="6d480f49-91d3-4a18-be29-0d27f4109c23">
         <description>Bluegiga accelerometer demo service</description>
         <characteristic uuid="11c3876c-9bda-42cc-a30b-1be83c8059d3" id="x_data">
-            <properties read="true" write="true"/>
-            <value type="hex">0000</value>
+            <properties read="true" notify="true"/>
+            <value type="hex" length="2"></value>
         </characteristic>
         <characteristic uuid="7c55527b-4027-42ae-ae6d-6d1309e5d97e" id="y_data">
             <properties read="true" write="true"/>
