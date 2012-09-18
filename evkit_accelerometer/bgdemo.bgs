@@ -3,9 +3,7 @@ dim result
 dim channel
 dim tlen
 
-event system_boot(major, minor, patch, build, ll_version, protocol_version, hw)
-  # Device is not connected yet
-  connected = 0
+event system_boot(major ,minor ,patch ,build ,ll_version ,protocol_version ,hw )
 
 	#set to advertising mode
 	call gap_set_mode(gap_general_discoverable,gap_undirected_connectable)
@@ -72,24 +70,15 @@ event hardware_soft_timer(handle)
 end
 
 
-#event hardware_io_port_status(timestamp, port, irq, state)
-#end
-
-#event attributes_value(connection, reason, handle, offset, value_len, value_data)
-#end
-
-# Connection event listener
-event connection_status(connection, flags, address, address_type, conn_interval, timeout, latency)
-
-	# Device is connected. 
-	# Set <connected> to true, or otherwise the advertisement timers will disconnect the device
-	connected = 1	
+event hardware_io_port_status(timestamp, port, irq, state)
 
 end
 
+event attributes_value(connection, reason, handle, offset, value_len, value_data)
+
+end 
+
 event connection_disconnected(handle,result)
-	# Connection disconnected, re-initiate connection procedure
-	connected = 0
 	#connection disconnected, continue advertising
-	call gap_set_mode(gap_general_discoverable, gap_undirected_connectable)
+	call gap_set_mode(gap_general_discoverable,gap_undirected_connectable)
 end

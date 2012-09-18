@@ -46,11 +46,11 @@
             <value type="hex" length="4"></value>
         </characteristic>
         <characteristic uuid="7c55527b-4027-42ae-ae6d-6d1309e5d97e" id="y_data">
-            <properties read="true" notify="true"/>
-            <value type="hex" length="6"></value>
+            <properties read="true" write="true"/>
+            <value type="hex">0000</value>
         </characteristic>
         <characteristic uuid="f1fa1ce8-cbcc-4401-8428-ae947bd512ae" id="z_data">
-            <properties read="true" notify="true"/>
+            <properties read="true" write="true"/>
             <value type="hex">0000</value>
         </characteristic>
     </service>
