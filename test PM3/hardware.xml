@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<hardware>
+    <sleeposc enable="true" ppm="30" />
+	<wakeup_pin enable="true" port="0" pin="0" />
+	<port index="0" tristatemask="0" pull="down" />
+    <usb enable="false" endpoint="api"/>
+    <txpower power="15" bias="5" />
+	<usart channel="0" mode="spi_master" alternate="2" polarity="positive" phase="1" endianness="msb" baud="57600" endpoint="none" />
+	<script enable="true" />
+    <pmux regulator_pin="7" />
+	<slow_clock enable="true" />
+</hardware>
