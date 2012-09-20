@@ -6,7 +6,7 @@
 
       <characteristic uuid="2a00">
         <properties read="true" const="true" />
-        <value>Press the switch</value>
+        <value>Press the switch v.001</value>
       </characteristic>
 
       <characteristic uuid="2a01">
@@ -39,19 +39,11 @@
         </characteristic>
     </service>
 
-    <service uuid="6d480f49-91d3-4a18-be29-0d27f4109c23">
-        <description>Bluegiga accelerometer demo service</description>
-        <characteristic uuid="11c3876c-9bda-42cc-a30b-1be83c8059d3" id="x_data">
+    <service uuid="c12b3312-b412-4047-b5f2-062277b9a1b0">
+        <description>Button Press service</description>
+        <characteristic uuid="9691b638-1f1d-4282-94eb-8e26d2533e7d" id="device_state">
             <properties read="true" notify="true"/>
-            <value type="hex" length="4"></value>
-        </characteristic>
-        <characteristic uuid="7c55527b-4027-42ae-ae6d-6d1309e5d97e" id="y_data">
-            <properties read="true" notify="true"/>
-            <value type="hex" length="4"></value>
-        </characteristic>
-        <characteristic uuid="f1fa1ce8-cbcc-4401-8428-ae947bd512ae" id="z_data">
-            <properties read="true" write="true"/>
-            <value type="hex">0000</value>
+            <value type="hex" length="3"></value>
         </characteristic>
     </service>
 	
