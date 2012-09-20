@@ -1,0 +1,1 @@
+This is a switch test to ping the phone

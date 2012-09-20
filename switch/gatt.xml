@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+    <service uuid="1800">
+      <description>Generic Access Profile</description>
+
+      <characteristic uuid="2a00">
+        <properties read="true" const="true" />
+        <value>Press the switch</value>
+      </characteristic>
+
+      <characteristic uuid="2a01">
+        <properties read="true" const="true" />
+        <value type="hex">4142</value>
+      </characteristic>
+    </service>
+
+    <service uuid="180A">
+        <description>Device Information</description>
+        <characteristic uuid="2a29">
+            <properties read="true" const="true" />
+            <value>The Switch</value>
+            <description>David Peterson</description>
+        </characteristic>
+        <characteristic uuid="2a24">
+            <properties read="true" const="true" />
+            <value>lab1</value>
+            <description>Model Number String</description>
+        </characteristic>
+        <characteristic uuid="2a26">
+            <properties read="true" const="true" />
+            <value>V0.01</value>
+            <description>Firmware Revision String</description>
+        </characteristic>
+        <characteristic uuid="2a27">
+            <properties read="true" const="true" />
+            <value>V0.1</value>
+            <description>Hardware Revision String</description>
+        </characteristic>
+    </service>
+
+    <service uuid="6d480f49-91d3-4a18-be29-0d27f4109c23">
+        <description>Bluegiga accelerometer demo service</description>
+        <characteristic uuid="11c3876c-9bda-42cc-a30b-1be83c8059d3" id="x_data">
+            <properties read="true" notify="true"/>
+            <value type="hex" length="4"></value>
+        </characteristic>
+        <characteristic uuid="7c55527b-4027-42ae-ae6d-6d1309e5d97e" id="y_data">
+            <properties read="true" notify="true"/>
+            <value type="hex" length="4"></value>
+        </characteristic>
+        <characteristic uuid="f1fa1ce8-cbcc-4401-8428-ae947bd512ae" id="z_data">
+            <properties read="true" write="true"/>
+            <value type="hex">0000</value>
+        </characteristic>
+    </service>
+	
+</configuration>
