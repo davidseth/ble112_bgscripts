@@ -13,11 +13,26 @@ event connection_disconnected(handle,result)
 end
 
 event hardware_io_port_status(timestamp, port, irq, state)
+
+	call hardware_io_port_write(1,$7,$1)
+	call hardware_io_port_config_direction(1,$7)
+	call hardware_spi_transfer(0,11,"\x30\x30\x30\x39\x14\x56\x6d\x70\x0c\x06\x01")
+	call hardware_io_port_write(1,$7,$3)
+	call hardware_spi_transfer(0,12,port)
+
+
 	call gap_set_adv_parameters(1600, 1600, 7)
 	call gap_set_mode(gap_general_discoverable,gap_undirected_connectable)
-	call hardware_set_soft_timer(1920000, 0, 1)	#60 seconds
+
+	#Allow pairing
+	#call sm_set_bondable_mode(1)
+
+  # call timer in 60 seconds (32768 = crystal frequency). Once timer is called 
+  # the module switches off advertising and can "go to sleep" by entering PM3 mode
+	call hardware_set_soft_timer(1920000, 0, 0)	
 end
 
 event hardware_soft_timer(handle)
-	call gap_set_mode(0, 0)	#switch off advertising
+  #switch off advertising
+	call gap_set_mode(0, 0)	
 end
