@@ -1,10 +1,31 @@
 #Demo script to enter PM3 on BLE112
-#Simon Taylor, simon.taylor@avnet-embedded.eu (Distributors for Bluegiga)
+#David Peterson
+
+dim deviceState
+dim closed
+dim open
+dim newState
+
+
 event system_boot(major ,minor ,patch ,build ,ll_version ,protocol_version ,hw )
-	call gap_set_mode(0,0)
-	#Allow pairing
-	call sm_set_bondable_mode(1)
-	call hardware_io_port_config_irq(0, 1, 0) #enable IRQ on I/O port 0:0
+
+    deviceState = 0 #"\x43\x6C\x6F\x73\x65\x64"
+    closed = 0 # "\x43\x6C\x6F\x73\x65\x64"
+    open = 1 # "\x4F\x70\x65\x6E"
+
+    call gap_set_mode(0,0)
+
+    #Allow pairing
+    call sm_set_bondable_mode(1)
+
+    call hardware_io_port_config_irq(0, 1, 0) #enable IRQ on I/O port 0:0
+
+    # Set advertisement or scan response data. Use broadcast mode to advertise data (pg 97)
+    # call gap_set_adv_data(set_scanrsp, adv_data_len, adv_data_data)(result)
+
+    # closed
+    call flash_ps_save(8000, 5, closed);
+
 end
 
 event connection_disconnected(handle,result)
@@ -18,10 +39,18 @@ event hardware_io_port_status(timestamp, port, irq, state)
     call hardware_io_port_config_direction(1,$7)
     call hardware_spi_transfer(0,11,"\x30\x30\x30\x39\x14\x56\x6d\x70\x0c\x06\x01")
     call hardware_io_port_write(1,$7,$3)
-    call hardware_spi_transfer(0,12,"on")
+    
 
+    if deviceState = 0 then
+        call attributes_write(device_state,0,2, "on ");
+        call hardware_spi_transfer(0,12,"on")
+        deviceState=1
+    else
+        call attributes_write(device_state,0,3, "off");
+        call hardware_spi_transfer(0,12,"off")
+        deviceState=0
+    end if
 
-    call attributes_write(device_state,0,2,"on");
 
 
 
@@ -33,7 +62,7 @@ event hardware_io_port_status(timestamp, port, irq, state)
 
   # call timer in 60 seconds (32768 = crystal frequency). Once timer is called 
   # the module switches off advertising and can "go to sleep" by entering PM3 mode
-	call hardware_set_soft_timer(1920000, 0, 0)	
+    call hardware_set_soft_timer(1920000, 0, 1)
 end
 
 event hardware_soft_timer(handle)
