@@ -4,8 +4,6 @@
 dim deviceState
 dim closed
 dim open
-dim newState
-
 
 event system_boot(major ,minor ,patch ,build ,ll_version ,protocol_version ,hw )
 
